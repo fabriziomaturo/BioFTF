@@ -1,4 +1,4 @@
-betaprime_plot=function(x){
+betaprime_plot=function(x,n=20){
   library(BioFTF)
   for (i in 1:ncol(x)) colnames(x)=paste("species",c(1:ncol(x)),sep=" n.")
   for (i in 1:nrow(x)) rownames(x)=paste("community",c(1:nrow(x)),sep=" n.")
@@ -21,8 +21,9 @@ betaprime_plot=function(x){
 
   # fix points of domain
 
-  b=seq(-1,1,0.1)
-  b[11]=0.01    #avoid "shannon" jump close to 0
+  k=(n-1)/2
+  b=seq(-1,1,1/k)
+  b[b==0]=0.001    #avoid "shannon" jump close to 0
   b[1]=-0.9999  #avoid "richness" jump close to -1
 
   # temp matrix length(b)

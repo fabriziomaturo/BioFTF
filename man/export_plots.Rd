@@ -1,9 +1,8 @@
-\name{betasecond_plot}
-\alias{betasecond_plot}
-\title{Plot the second derivative of the beta profile for each community.}
-\usage{
-betasecond_plot(x,n)
-}
+\name{export_plots}
+\alias{export_plots}
+\title{Export the figures of beta profiles, derivatives, radius of curvature and curvature in a pdf file.}
+\usage{export_plots(x,n)}
+
 
 \arguments{
 
@@ -17,7 +16,7 @@ betasecond_plot(x,n)
 
 
 \description{
-This function provides the plot of the second derivative of the beta profile. The domain "beta" represents the sensibility to changes in the presence of rare species. The second derivative represents the deceleration of the profile for any given value of "beta". For "beta" close to -1, high values of the second derivative denote high dominance because the profile tends to be extremely curved when some prevalent species are present in a community. For the interval [0,1] the second derivative tends always towards zero.
+This function creates a pdf file with the figures of beta profiles, derivatives, radius of curvature and curvature according to the biodiversity computed using the functional tools.
 }
 \author{
 Fabrizio Maturo, Francesca Fortuna, Tonio Di Battista
@@ -30,13 +29,6 @@ PARAMETRIC FUNCTIONAL ANALYSIS OF VARIANCE FOR FISH BIODIVERSITY ASSESSMENT - T.
 
 }
 \examples{
-a=c(0.35,0.35,0.27,0.01,0.02)
-b=c(0.54,0.20,0.17,0.06,0.03)
-c=c(0.35,0.35,0.30,0,0)
-d=c(0.51,0.31,0.07,0.10,0.01)
-e=c(0.40,0.20,0.10,0.30,0)
-x=matrix(rbind(a,b,c,d,e),5,5)
-x
-betasecond_plot(x,20)
-
+x=matrix(c(0.3,0.5,0.1,0.05,0.05,0.25,0.25,0.25,0.25,0,0.35,0.3,0.35,0,0),3,5)
+export_plots(x,20)
 }

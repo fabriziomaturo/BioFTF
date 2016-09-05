@@ -1,4 +1,4 @@
-alltools=function(x){
+alltools=function(x,n=20){
 
   #################################################################################
   ############################      DATA    #######################################
@@ -25,8 +25,9 @@ alltools=function(x){
 
   # fix points of domain
 
-  b=seq(-1,1,0.1)
-  b[11]=0.01    #avoid "shannon" jump close to 0
+  k=(n-1)/2
+  b=seq(-1,1,1/k)
+  b[b==0]=0.001    #avoid "shannon" jump close to 0
   b[1]=-0.9999  #avoid "richness" jump close to -1
 
   # temp matrix length(b)
@@ -216,8 +217,12 @@ legend(1,nspecie, paste("Com.",c(1:nsiti)),lty=c(1:nsiti),lwd=1,y.intersp=0.65,n
   # summary table
 
   appo.sintesi[,1]=appo.profile[1,]
-  appo.sintesi[,2]=appo.profile[11,]
-  appo.sintesi[,3]=appo.profile[21,]
+
+  is.even <- function(u) u %% 2 == 0
+  is.odd <- function(u) u %% 2 == 1
+
+  if(is.odd(n)==FALSE) appo.sintesi[,2]=appo.profile[n/2,] else appo.sintesi[,2]=(appo.profile[n/2,]+appo.profile[n/2+1,])/2
+  appo.sintesi[,3]=appo.profile[n,]
   appo.sintesi[,4]=appo.arc
   appo.sintesi[,5]=appo.surface
   appo.sintesi

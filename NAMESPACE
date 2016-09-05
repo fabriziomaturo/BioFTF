@@ -1,2 +1,7 @@
 exportPattern("^[[:alpha:]]+")
 importFrom("graphics", "legend", "par", "plot")
+importFrom("grDevices", "dev.off", "pdf")
+importFrom("utils", "install.packages")
+
+
+

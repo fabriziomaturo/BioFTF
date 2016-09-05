@@ -1,4 +1,4 @@
-radius=function(x){
+radius=function(x,n=20){
 
   #################################################################################
   ############################      DATA    #######################################
@@ -24,9 +24,9 @@ radius=function(x){
   #################################################################################
 
   # fix points of domain
-
-  b=seq(-1,1,0.1)
-  b[11]=0.01    #avoid "shannon" jump close to 0
+  k=(n-1)/2
+  b=seq(-1,1,1/k)
+  b[b==0]=0.001    #avoid "shannon" jump close to 0
   b[1]=-0.9999  #avoid "richness" jump close to -1
 
   # temp matrix length(b)
