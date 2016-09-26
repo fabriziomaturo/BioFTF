@@ -1,6 +1,6 @@
 Package: BioFTF
-Version: 1.1-0
-Date: 2016-09-04
+Version: 1.2-0
+Date: 2016-09-26
 Title: Biodiversity Assessment Using Functional Tools
 Authors@R: c(person("Fabrizio Maturo", role = c("aut", "cre"), email = "f.maturo@unich.it"),
 	      person("Francesca Fortuna", role = "aut", email = "francesca.fortuna@unich.it"),
@@ -11,11 +11,11 @@ Author: Fabrizio Maturo [aut, cre],
 Maintainer: Fabrizio Maturo <f.maturo@unich.it>
 Depends: R (>= 3.1.0)
 Suggests: MASS
-Description: The main drawback of the most common biodiversity indices is that different measures may lead to different rankings among communities . This instrument overcomes this limit using some functional tools with the diversity profiles. In particular, the derivatives, the curvature, the radius of curvature, the arc length, and the surface area are proposed. The goal of this method is to interpret in detail the diversity profiles and obtain an ordering between different ecological communities on the basis of diversity. In contrast to the typical indices of diversity, the proposed method is able to capture the multidimensional aspect of biodiversity, because it takes into account both the evenness and the richness of the species present in an ecological community.
+Description: The main drawback of the most common biodiversity indices is that different measures may lead to different rankings among communities. This instrument overcomes this limit using some functional tools with the diversity profiles. In particular, the derivatives, the curvature, the radius of curvature, the arc length, and the surface area are proposed. The goal of this method is to interpret in detail the diversity profiles and obtain an ordering between different ecological communities on the basis of diversity. In contrast to the typical indices of diversity, the proposed method is able to capture the multidimensional aspect of biodiversity, because it takes into account both the evenness and the richness of the species present in an ecological community.
 License: GPL (>= 2)
 URL: https://www.r-project.org
 BugReports: f.maturo@unich.it
 NeedsCompilation: no
-Packaged: 2016-09-04 20:39:44 UTC; fabrizio
+Packaged: 2016-09-26 21:30:42 UTC; fabrizio
 Repository: CRAN
-Date/Publication: 2016-09-05 08:26:47
+Date/Publication: 2016-09-26 23:45:40
