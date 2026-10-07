@@ -1,0 +1,199 @@
+---
+title: "Hill-number functional tools with BioFTF"
+author: "Fabrizio Maturo, Francesca Fortuna, Tonio Di Battista"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Hill-number functional tools with BioFTF}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
+                      fig.width = 6.5, fig.height = 4.5)
+```
+
+## Hill-number profiles
+
+For a community with relative abundances $p_1, \dots, p_S$, the Hill number of
+order $q$ is
+
+$$D(q) = \Big(\sum_{i} p_i^{q}\Big)^{1/(1-q)}, \qquad q \neq 1,$$
+
+with $D(1) = \exp(-\sum_i p_i \log p_i)$. $D(0)$ is species richness, $D(1)$
+the exponential of Shannon entropy, $D(2)$ the inverse Simpson concentration,
+and $D(\infty) = 1/\max_i p_i$. Seen as a function of $q$, $D$ is a
+non-increasing curve, the diversity profile, and the package summarises it with
+tools from functional data analysis.
+
+Rows of the input matrix are communities, sites, or time points; columns are
+species. Counts and relative abundances give the same results.
+
+```{r}
+library(BioFTF)
+
+x <- matrix(c(54, 20, 17,  6,  3,
+              25, 25, 25, 25,  0,
+              35, 35, 30,  0,  0,
+              70, 10, 10,  5,  5),
+            nrow = 4, byrow = TRUE)
+rownames(x) <- c("A", "B", "C", "D")
+
+hill_profile(x, domain = c(0, 1, 2, 10, 100, Inf))
+```
+
+By default the profile is evaluated on 101 orders between 0 and 2. The
+arguments `from`, `to` and `n` change the grid, and `domain` supplies the
+orders directly.
+
+```{r}
+hill_profile_plot(x, from = 0, to = 10, n = 501)
+```
+
+Community B has four equally abundant species and a flat profile. Community A
+is richer than B but less even: the two profiles cross, so neither community
+is more diverse than the other at every order.
+
+### Negative orders
+
+For $q < 0$ the Hill number exceeds species richness and is driven by the
+rarest species, up to $D(-\infty) = 1/\min_i p_i$. Its value therefore rests
+on the abundances that are estimated worst. Negative orders raise an error
+unless `allow_negative = TRUE`.
+
+```{r}
+hill_profile(x, domain = c(-1, 0), allow_negative = TRUE)
+```
+
+### Relation with the Patil-Taillie profile
+
+Versions 1.x of the package used the beta profile
+$\Delta(\beta) = (1 - \sum_i p_i^{\beta+1})/\beta$ on $-1 \le \beta \le 1$.
+With $q = \beta + 1$,
+
+$$\Delta(\beta) = \frac{1 - D(q)^{-\beta}}{\beta},$$
+
+so $[-1, 1]$ for $\beta$ corresponds to $[0, 2]$ for $q$. The two profiles
+order communities in the same way at each order, but derivatives, arc length
+and areas are not invariant to this change of scale, and the functional tools
+computed on the two profiles differ.
+
+## Derivatives, curvature and radius of curvature
+
+Derivatives are analytical and do not depend on the grid.
+
+```{r}
+hill_first_derivative(x, domain = c(0, 1, 2))
+hill_second_derivative(x, domain = c(0, 1, 2))
+hill_derivative_plot(x, order = 1)
+hill_curvature_plot(x)
+```
+
+The first derivative is never positive. It is close to zero where the profile
+is flat, and strongly negative near $q = 0$ for communities with rare species.
+
+## Area, cumulative integral function and arc length
+
+`hill_cum()` integrates the profile from the first order of the grid up to
+each order, and `hill_area()` returns the integral over the whole domain. Both
+use the trapezoidal rule, so `n` should grow with the width of the domain.
+
+```{r}
+hill_area(x)
+hill_cum_plot(x)
+hill_arc(x)
+hill_ranking(x)
+```
+
+`area_rank` is 1 for the largest area. `arc_rank` is 1 for the shortest arc,
+that is for the flattest profile, and is not a ranking by diversity. When
+profiles cross, as for A and B, the area ranking depends on the domain:
+
+```{r}
+hill_ranking(x, from = 0, to = 0.5)[, c("hill_area", "area_rank")]
+```
+
+## Biodiversity surfaces
+
+When rows are ordered in time, the profiles placed side by side form a
+surface, and the change in area between consecutive rows summarises its
+evolution.
+
+```{r}
+years <- 2018:2027
+z <- matrix(c(40, 35, 15,  5,  5,  0,
+              38, 34, 16,  6,  4,  2,
+              35, 30, 18,  8,  5,  4,
+              30, 28, 20, 10,  7,  5,
+              25, 26, 21, 12,  9,  7,
+              20, 24, 22, 14, 11,  9,
+              16, 21, 23, 16, 13, 11,
+              12, 18, 24, 18, 15, 13,
+               9, 15, 24, 20, 17, 15,
+               6, 12, 23, 22, 19, 18),
+            nrow = length(years), byrow = TRUE)
+rownames(z) <- years
+
+hill_total_change(z)
+```
+
+```{r, fig.height = 5.5}
+hill_surface_plot(z, from = 0, to = 10, n = 121, plot = "static")
+```
+
+Between two consecutive years the surface is a linear interpolation drawn for
+display only. The default `plot = "interactive"` returns a `plotly` surface
+that can be rotated in the viewer or in a browser.
+
+```{r, eval = FALSE}
+hill_surface_plot(z, from = 0, to = 10, n = 121)
+```
+
+Two sets of surveys on the same time points can be compared side by side, or
+through their pointwise difference.
+
+```{r, fig.width = 7.5, fig.height = 4}
+w <- z
+w[, 1] <- z[, 1] + 15
+w[, 6] <- z[, 6] + 4
+
+hill_surface_compare(z, w, from = 0, to = 10, n = 121,
+                     labels = c("Area 1", "Area 2"), plot = "static")
+```
+
+```{r, fig.height = 5.5}
+hill_surface_compare(z, w, from = 0, to = 10, n = 121,
+                     labels = c("Area 1", "Area 2"), plot = "static",
+                     mode = "difference")
+```
+
+```{r, eval = FALSE}
+hill_surface_compare(z, w, from = 0, to = 10, n = 121,
+                     labels = c("Area 1", "Area 2"))
+hill_surface_compare(z, w, from = 0, to = 10, n = 121,
+                     labels = c("Area 1", "Area 2"), mode = "difference")
+```
+
+## References
+
+Di Battista, T., Fortuna, F. and Maturo, F. (2017). BioFTF: An R package for
+biodiversity assessment with the functional data analysis approach.
+*Ecological Indicators*, 73, 726-732.
+<https://doi.org/10.1016/j.ecolind.2016.10.032>
+
+Hill, M. O. (1973). Diversity and evenness: a unifying notation and its
+consequences. *Ecology*, 54(2), 427-432. <https://doi.org/10.2307/1934352>
+
+Maturo, F. (2018). Unsupervised classification of ecological communities ranked
+according to their biodiversity patterns via a functional principal component
+decomposition of Hill's numbers integral functions. *Ecological Indicators*,
+90, 305-315. <https://doi.org/10.1016/j.ecolind.2018.03.013>
+
+Maturo, F. and Di Battista, T. (2018). A functional approach to Hill's numbers
+for assessing changes in species variety of ecological communities over time.
+*Ecological Indicators*, 84, 70-81.
+<https://doi.org/10.1016/j.ecolind.2017.08.016>
+
+Patil, G. P. and Taillie, C. (1982). Diversity as a concept and its
+measurement. *Journal of the American Statistical Association*, 77(379),
+548-561. <https://doi.org/10.1080/01621459.1982.10477845>

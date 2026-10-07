@@ -1,0 +1,37 @@
+citHeader("To cite BioFTF in publications, please use:")
+
+bibentry(
+  bibtype = "Article",
+  title = "BioFTF: An R package for biodiversity assessment with the functional data analysis approach",
+  author = c(person("Tonio", "Di Battista"),
+             person("Francesca", "Fortuna"),
+             person("Fabrizio", "Maturo")),
+  journal = "Ecological Indicators",
+  year = "2017",
+  volume = "73",
+  pages = "726--732",
+  doi = "10.1016/j.ecolind.2016.10.032"
+)
+
+bibentry(
+  bibtype = "Article",
+  title = "A functional approach to Hill's numbers for assessing changes in species variety of ecological communities over time",
+  author = c(person("Fabrizio", "Maturo"),
+             person("Tonio", "Di Battista")),
+  journal = "Ecological Indicators",
+  year = "2018",
+  volume = "84",
+  pages = "70--81",
+  doi = "10.1016/j.ecolind.2017.08.016"
+)
+
+bibentry(
+  bibtype = "Article",
+  title = "Unsupervised classification of ecological communities ranked according to their biodiversity patterns via a functional principal component decomposition of Hill's numbers integral functions",
+  author = person("Fabrizio", "Maturo"),
+  journal = "Ecological Indicators",
+  year = "2018",
+  volume = "90",
+  pages = "305--315",
+  doi = "10.1016/j.ecolind.2018.03.013"
+)
