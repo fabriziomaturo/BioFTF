@@ -34,3 +34,4 @@ alltools <- function(x, from = 0, to = 2, n = 101) {
     ranking = hill_ranking(x, from = from, to = to, n = n)
   )
 }
+

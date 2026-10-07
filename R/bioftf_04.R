@@ -147,3 +147,4 @@ hill_total_change <- function(x, from = 0, to = 2, n = 101, domain = NULL,
     stringsAsFactors = FALSE
   )
 }
+

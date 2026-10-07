@@ -2,6 +2,12 @@
 ## 2. Hill number and its analytical derivatives
 ## ---------------------------------------------------------------------------
 
+## Returns c(D, D', D'') at a finite order q for a vector of relative
+## abundances. With L(q) = log(sum(p^q)) and g(q) = L(q) / (1 - q), the Hill
+## number is D = exp(g). L' and L'' are the mean and the variance of log(p)
+## under the weights p^q / sum(p^q). For |q - 1| < 1e-3 the closed form is
+## replaced by its Taylor expansion, whose coefficients are the cumulants of
+## log(p) under p.
 .hill_core <- function(p, q) {
   p <- p[p > 0]
   lp <- log(p)
@@ -28,6 +34,7 @@
     w <- exp(a - amax)
     sw <- sum(w)
     w <- w / sw
+    ## log1p/expm1 keep the relative accuracy of L when q is close to 1.
     L <- if (abs(e) < 0.5) log1p(sum(p * expm1(e * lp))) else amax + log(sw)
     m <- sum(w * lp)
     v <- sum(w * (lp - m)^2)
@@ -51,6 +58,7 @@
   .hill_core(p, q)[1L]
 }
 
+## which: 1 = profile, 2 = first derivative, 3 = second derivative.
 .hill_matrix <- function(x, q, which = 1L) {
   p <- .relative_abundance(x)
   values <- vapply(seq_len(nrow(p)), function(i) {
@@ -61,3 +69,4 @@
   }, numeric(length(q)))
   .as_profile(values, q, rownames(p))
 }
+

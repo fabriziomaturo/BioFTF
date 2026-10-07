@@ -63,12 +63,12 @@ therefore rejected unless \code{allow_negative = TRUE}.
 
 \emph{Relation with the Patil-Taillie profile.} Versions 1.x of the package
 used the beta profile of Patil and Taillie (1982),
-\dequn{\Delta(\beta) = \frac{1 - \sum_i p_i^{\beta + 1}}{\beta}, \qquad -1 \le \beta \le 1,}{Delta(beta) = (1 - sum_i p_i^(beta + 1)) / beta, -1 <= beta <= 1,}
+\deqn{\Delta(\beta) = \frac{1 - \sum_i p_i^{\beta + 1}}{\beta}, \qquad -1 \le \beta \le 1,}{Delta(beta) = (1 - sum_i p_i^(beta + 1)) / beta, -1 <= beta <= 1,}
 which equals \eqn{S - 1} at \eqn{\beta = -1}{beta = -1}, Shannon entropy as
 \eqn{\beta \to 0}{beta -> 0}, and the Gini-Simpson index at
 \eqn{\beta = 1}{beta = 1}. With \eqn{q = \beta + 1}{q = beta + 1} the two
 profiles are linked by
-\dequn{\Delta(\beta) = \frac{1 - D(q)^{-\beta}}{\beta},}{Delta(beta) = (1 - D(q)^(-beta)) / beta,}
+\deqn{\Delta(\beta) = \frac{1 - D(q)^{-\beta}}{\beta},}{Delta(beta) = (1 - D(q)^(-beta)) / beta,}
 so the interval \eqn{[-1, 1]} for \eqn{\beta}{beta} corresponds to
 \eqn{[0, 2]} for \eqn{q}. The two profiles induce the same ordering of
 communities at each order, but they are measured on different scales: the

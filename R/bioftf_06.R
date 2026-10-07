@@ -33,6 +33,7 @@ hill_surface <- function(x, from = 0, to = 2, n = 101, domain = NULL,
   list(q = q, time = time, z = z)
 }
 
+## Static perspective plot with facets coloured by height.
 .persp_surface <- function(s, xlab, ylab, zlab, main, theta, phi,
                            palette = "viridis", zlim = range(s$z),
                            diverging = FALSE, ...) {
@@ -163,3 +164,4 @@ hill_surface_compare <- function(x, y, from = 0, to = 2, n = 101,
   }
   invisible(out)
 }
+

@@ -73,6 +73,7 @@
   domain
 }
 
+## Grid required by tools that integrate or differentiate along q.
 .finite_grid <- function(q, what) {
   if (any(!is.finite(q))) {
     stop(what, " require finite orders.", call. = FALSE)
@@ -100,3 +101,4 @@
 .cumtrapz <- function(x, y) {
   c(0, cumsum(diff(x) * (y[-length(y)] + y[-1L]) / 2))
 }
+
